@@ -1,0 +1,47 @@
+#!/bin/bash
+#
+# Change the values of "STORAGE_MEDIA" and "ROOT_EXCLUDE_DIRS"
+# Name this file "restore", make it "executable" and put it in "/bin"
+# Invoke by: "sudo backup"
+#
+# Feel free to modify however you want. If you make something better, 
+#------------------------------------------------------------------------------------
+#    CHANGE THE VALUES BELOW TO SUIT YOUR CONFIGURATION 
+#------------------------------------------------------------------------------------
+
+ROOT="/*"
+ROOT_EXCLUDE_DIRS="--exclude=/lost+found --exclude=/proc --exclude=/mnt --exclude=/sys --exclude=/backup.tgz"
+
+#------------------------------------------------------------------------------------
+#             DO NOT CHANGE ANYTHING BELOW THIS LINE           
+#------------------------------------------------------------------------------------
+if [ "$USER" != "root" ]; then 
+    echo "You are not root user, use: sudo backup"
+    exit
+fi
+clear
+echo "|-------------------------------------------------------------" 
+echo "|  IT'S RECOMMENDED TO RUN THIS SCRIPT BEFORE GNOME LOGIN  "
+echo "|-------------------- Press CTRL+ALT+F1 at the GDM login"
+echo "|-------------------------------------------------------------"
+echo "|  BACKUP YOUR SYSTEM: "
+OPTIONS="Backup Exit"
+LIST="1) Backup 2) Exit" 
+
+select opt in $OPTIONS; do
+if [ "$opt" = "Exit" ]; then
+    clear
+    exit
+
+elif [ "$opt" = "Backup" ]; then
+    tar cvpfz /backup.tgz $ROOT $ROOT_EXCLUDE_DIRS
+    echo "BACKUP COMPLETE"
+    exit
+else
+    clear
+    echo "| BAD OPTION! Select 1 or 2"
+    echo "|--------------------------------------------------------------"
+    echo "|  BACKUP YOUR SYSTEM: "
+    echo $LIST
+fi
+done
