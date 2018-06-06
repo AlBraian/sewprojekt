@@ -1,0 +1,41 @@
+#!/bin/bash
+echo 'Backup script'
+read -p "1)Backup 2)Recovery 3)EXIT : " answ
+echo $answ
+if [ $answ = "EXIT" ]
+	then	
+		clear
+		exit
+elif [ $answ = "Backup" ]
+	then
+		read -p 'Welchec Verceichnis: ' verch
+		echo $verch
+		echo Inhalt
+		ls $verch
+		read -p 'Welche file: ' unter
+		echo $unter
+		cp -r ./$verch/$unter ./backup1
+elif [$answ = "Recovery" ]
+	then
+		echo "Warning: Everything in work File will be deleted if chosen as save folder"
+		echo "Recovery"
+		read -p 'In welche vercechnis wollen sie die Datei Scpeichern : ' rest
+		echo $rest
+		echo Inhalt
+		ls backup1
+		read -p 'Welches File: ' unres
+		echo $unres
+		if [ $unres = 'work' ]
+			then
+				rm ./work/*
+				cp -r ./backup1/$unres ./work
+				echo "Backup sucessfully in work folder"
+		else
+			cp -r ./backup1/$unres ./$rest
+			echo "Backup sucessfully  in " $rest 
+		fi
+else
+	echo 'Falche Option'
+	echo 'Write Backup, Recovery or EXIT'
+	echo '--------------------------------------------------'
+fi		
